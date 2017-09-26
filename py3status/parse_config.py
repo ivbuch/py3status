@@ -3,6 +3,8 @@ import codecs
 import imp
 import os
 import re
+import py3status.wal_colors
+import pprint
 
 from collections import OrderedDict
 from string import Template
@@ -550,10 +552,12 @@ def process_config(config_path, py3_wrapper=None):
 
     # update general section with defaults
     general_defaults = GENERAL_DEFAULTS.copy()
+
     if 'general' in config_info:
         general_defaults.update(config_info['general'])
-    config['general'] = general_defaults
+        general_defaults.update(py3status.wal_colors.read_wal_colors())
 
+    config['general'] = general_defaults
     config['py3status'] = config_info.get('py3status', {})
     modules = {}
     on_click = {}
